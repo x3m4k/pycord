@@ -418,8 +418,6 @@ class VoiceClient(VoiceProtocol):
         if self._runner is MISSING:
             self._runner = self.loop.create_task(self.poll_voice_ws(reconnect))
 
-        self.started_recording = int(time.time())
-
     async def potential_reconnect(self) -> bool:
         # Attempt to stop the player thread from playing early
         self._connected.clear()
@@ -753,6 +751,7 @@ class VoiceClient(VoiceProtocol):
             ),
         )
         t.start()
+        self.started_recording = int(time.time())
 
     def stop_recording(self):
         """Stops the recording.
